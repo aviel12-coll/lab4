@@ -1,0 +1,15 @@
+{
+  "_note": "USD per million tokens, used only for the 'estimated cost' numbers. First 'match' (a regex on the model id) wins. Cache reads and writes are priced as a multiple of the model's input price. Edit freely and restart the dashboard.",
+  "cache_read": 0.1,
+  "cache_write_5m": 1.25,
+  "cache_write_1h": 2.0,
+  "models": [
+    {"match": "opus-(4-[5-9]|[5-9])|fable", "input": 5, "output": 25},
+    {"match": "opus", "input": 15, "output": 75},
+    {"match": "sonnet", "input": 3, "output": 15},
+    {"match": "haiku-([4-9])", "input": 1, "output": 5},
+    {"match": "3-5-haiku", "input": 0.8, "output": 4},
+    {"match": "haiku", "input": 0.25, "output": 1.25}
+  ],
+  "default": {"input": 3, "output": 15}
+}

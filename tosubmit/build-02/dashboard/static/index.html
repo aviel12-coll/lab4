@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Traffic</title>
+<link rel="stylesheet" href="/style.css">
+<script>
+  // Apply the saved theme before first paint.
+  try { var t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="live-dot" id="liveDot" title="live"></span>
+    <h1>Agent traffic</h1>
+    <span class="muted small" id="logPath"></span>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="traffic" class="active">Traffic</button>
+    <button role="tab" data-tab="tools">Tool calls</button>
+    <button role="tab" data-tab="graphs">Graphs</button>
+  </nav>
+  <div class="top-actions">
+    <button id="themeBtn" class="ghost" title="Switch light / dark / system theme">◐ System</button>
+    <button id="clearBtn" class="ghost" title="Archive traffic.jsonl and start a fresh session">Archive &amp; clear</button>
+  </div>
+</header>
+
+<section class="stats" id="stats" aria-label="Session totals">
+  <div class="tiles" id="globalTiles"></div>
+  <p class="more" id="globalMore"></p>
+</section>
+
+<main>
+  <!-- TRAFFIC -->
+  <section class="tab-panel" id="tab-traffic">
+    <div class="filters">
+      <input id="search" type="search" placeholder="Search prompts and replies…" aria-label="Search">
+      <label>Tool <select id="toolFilter"><option value="">all tools</option></select></label>
+      <label class="check"><input type="checkbox" id="hideSide"> Hide side calls</label>
+      <label class="check"><input type="checkbox" id="errorsOnly"> Errors only</label>
+      <span class="legend" id="roleLegend"></span>
+    </div>
+    <div class="split">
+      <ol class="req-list" id="reqList" aria-label="Requests, newest first"></ol>
+      <article class="detail" id="detail">
+        <div class="empty">Select a request on the left to see the conversation, its numbers and the raw details.</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TOOL CALLS -->
+  <section class="tab-panel" id="tab-tools" hidden>
+    <div class="filters">
+      <div class="chips" id="toolChips"></div>
+      <label class="check"><input type="checkbox" id="toolErrorsOnly"> Failed only</label>
+    </div>
+    <div class="tool-table-wrap">
+      <table class="tool-table">
+        <thead><tr><th>When</th><th>Tool</th><th>Call</th><th>Result</th><th class="num">Wait</th><th>Requests</th></tr></thead>
+        <tbody id="toolRows"></tbody>
+      </table>
+      <div class="empty" id="toolEmpty">No tool calls yet.</div>
+    </div>
+  </section>
+
+  <!-- GRAPHS -->
+  <section class="tab-panel" id="tab-graphs" hidden>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Group bars">
+        <button data-mode="request" class="active">Per request</button>
+        <button data-mode="prompt">Per prompt</button>
+      </div>
+      <label class="check"><input type="checkbox" id="graphHideSide" checked> Hide side calls</label>
+      <span class="muted small">Hover a bar for exact values · click it to open that request</span>
+    </div>
+    <div class="graphs" id="graphs">
+      <figure class="chart-card"><figcaption><h3>Tokens per request</h3><p>new input, cache read, cache write and output</p></figcaption><div class="chart-box"><canvas id="chTokens"></canvas></div></figure>
+      <figure class="chart-card"><figcaption><h3>Cost</h3><p>estimated $ per request, and the running total below</p></figcaption><div class="chart-box"><canvas id="chCost"></canvas></div><div class="chart-box short"><canvas id="chCostTotal"></canvas></div></figure>
+      <figure class="chart-card"><figcaption><h3>Time</h3><p>waiting for the first byte, then the rest of the reply</p></figcaption><div class="chart-box"><canvas id="chTime"></canvas></div></figure>
+      <figure class="chart-card"><figcaption><h3>Request size</h3><p>how big the request body gets as the conversation grows</p></figcaption><div class="chart-box"><canvas id="chSize"></canvas></div></figure>
+      <figure class="chart-card wide"><figcaption><h3>Tool calls</h3><p>calls the model asked for, coloured per tool</p></figcaption><div class="chart-box"><canvas id="chTools"></canvas></div></figure>
+    </div>
+    <div class="empty" id="graphsEmpty" hidden></div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
