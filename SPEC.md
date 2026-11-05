@@ -71,8 +71,8 @@ to the next, so trends are seen instead of read:
   "per request" and "per prompt" (summed).
 - Hovering a bar shows its exact values; clicking it opens that request in the Traffic tab.
 - Side requests are left out unless "hide side calls" is off.
-- Charts are drawn with plain SVG or canvas in the page itself: no external libraries, works
-  offline. They update live as new requests arrive.
+- Charts may use a charting library (for example Chart.js loaded from a CDN) so they are
+  interactive and easy to read. They update live as new requests arrive.
 
 ### Acceptance Checks
 1. Without reading any numbers, you can tell in the list which rows are your prompts, tool
