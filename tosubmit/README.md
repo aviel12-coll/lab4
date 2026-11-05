@@ -9,4 +9,5 @@ Also here, for showing the work:
 
 - `build-02/`: the last build, made from scratch by a fresh agent from `SPEC.md` and `proxy.py` only.
   Run: `python3 proxy.py`, then `python3 dashboard/server.py --log traffic.jsonl` (http://localhost:8042).
-- `traffic/`: captured sessions to load with `--log` (added once the repo is private, since they hold full prompts).
+
+Captured traffic logs are not included: they hold full prompts and personal data.
