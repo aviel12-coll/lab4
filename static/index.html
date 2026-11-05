@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proxy Traffic</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>Proxy Traffic</h1>
+      <span id="live" class="live off" title="connection to the dashboard server"><i></i><b>connecting</b></span>
+    </div>
+    <div id="stats" class="stats" aria-label="totals for the requests shown"></div>
+  </header>
+
+  <nav class="bar">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="traffic" class="on">Traffic</button>
+      <button role="tab" data-tab="tools">Tool calls</button>
+    </div>
+    <input id="q" type="search" placeholder="Search text, tool, model…" aria-label="search">
+    <select id="tool" aria-label="filter by tool"><option value="">All tools</option></select>
+    <select id="model" aria-label="filter by model"><option value="">All models</option></select>
+    <label class="chk"><input id="errors" type="checkbox"> Errors only</label>
+    <label class="chk" title="token counts, HEAD probes and other non-message calls"><input id="aux" type="checkbox" checked> Hide side calls</label>
+    <span id="shown" class="muted"></span>
+    <button id="clear" class="ghost" title="archive traffic.jsonl and start fresh">Clear</button>
+  </nav>
+
+  <main id="traffic" class="split">
+    <section class="list" aria-label="requests, newest first">
+      <div id="rows"></div>
+      <p id="empty" class="empty">No traffic yet. Start <code>python3 proxy.py</code>, then run the agent with
+        <code>ANTHROPIC_BASE_URL=http://localhost:8041</code>.</p>
+    </section>
+    <section id="detail" class="detail" aria-live="polite">
+      <p class="empty">Select a request to see the system prompt, tools, history, new message and reply.</p>
+    </section>
+  </main>
+
+  <main id="tools" class="toolsview" hidden>
+    <div id="usage" class="usage"></div>
+    <div id="pairs" class="pairs"></div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
